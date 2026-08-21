@@ -2,179 +2,141 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>هدية خاصة</title>
+    <!-- خاصية ملائمة الشاشات ومنع التكبير والتصغير -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>مفاجأة خاصة لرهوفة</title>
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
         body {
-            background-color: #0f172a;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Arial', sans-serif;
+            background-color: #fdf2f8;
+            height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            color: #fff;
-            overflow: hidden;
+            overflow: hidden; /* لمنع ظهور شريط التمرير العشوائي */
+        }
+        .container {
+            background: white;
+            padding: 30px 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 400px;
             text-align: center;
         }
-
-        .container {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 40px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            max-width: 400px;
-            width: 90%;
+        input {
+            padding: 12px;
+            font-size: 18px;
+            border: 2px solid #ec4899;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 200px;
+            text-align: center;
+            outline: none;
         }
-
-        /* صندوق الهدية */
+        button {
+            margin-top: 15px;
+            padding: 12px 25px;
+            font-size: 18px;
+            background: #ec4899;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            max-width: 200px;
+        }
+        button:active {
+            background: #db2777;
+        }
+        #gift-page {
+            display: none;
+        }
         .gift-box {
             font-size: 80px;
             cursor: pointer;
-            transition: transform 0.3s ease;
-            animation: bounce 2s infinite;
-            margin-bottom: 20px;
+            margin: 20px 0;
+            transition: transform 0.3s;
         }
-
         .gift-box:hover {
             transform: scale(1.1);
         }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-            40% {transform: translateY(-15px);}
-            60% {transform: translateY(-7px);}
-        }
-
-        /* محتوى التهنئة والقلب */
-        #content {
+        #love-message {
             display: none;
-        }
-
-        .heart {
-            font-size: 70px;
-            color: #ef4444;
-            animation: pulse 1.2s infinite;
-            margin-bottom: 15px;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-
-        .greeting {
-            font-size: 22px;
-            font-weight: bold;
-            color: #f8fafc;
-            margin-bottom: 25px;
-            line-height: 1.5;
-        }
-
-        /* قسم السؤال */
-        .question-section {
-            margin-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 20px;
-        }
-
-        .question-section p {
-            font-size: 18px;
-            margin-bottom: 15px;
-        }
-
-        .buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .btn {
-            padding: 10px 25px;
-            font-size: 16px;
-            font-weight: bold;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .btn-yes {
-            background-color: #22c55e;
-            color: white;
-        }
-
-        .btn-yes:hover {
-            background-color: #16a34a;
-        }
-
-        .btn-no {
-            background-color: #ef4444;
-            color: white;
-        }
-
-        .btn-no:hover {
-            background-color: #dc2626;
-        }
-
-        /* رسالة الرد النهائية */
-        #response-msg {
-            display: none;
-            margin-top: 20px;
             font-size: 20px;
-            color: #38bdf8;
+            color: #831843;
             font-weight: bold;
-            animation: fadeIn 0.5s ease;
+            line-height: 1.6;
+            margin-top: 15px;
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        
+        /* تذييل الصفحة */
+        footer {
+            position: absolute;
+            bottom: 15px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+        footer a {
+            color: #ec4899;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- شكل الهدية قبل الضغط -->
-        <div id="gift-container">
-            <p style="margin-bottom: 10px; color: #cbd5e1;">اضغط على الهدية لفتحها 👇</p>
-            <div class="gift-box" onclick="openGift()">🎁</div>
-        </div>
+    <!-- صفحة الدخول -->
+    <div id="login-page" class="container">
+        <h2 style="font-size: 20px; color: #831843; margin-bottom: 20px;">أدخلي رمز الدخول إلى قلبي ❤️</h2>
+        <input type="text" id="pass" maxlength="4" placeholder="????">
+        <br>
+        <button onclick="checkPass()">دخول</button>
+    </div>
 
-        <!-- محتوى الهدية الذي يظهر بعد الضغط -->
-        <div id="content">
-            <div class="heart">❤️</div>
-            <div class="greeting">كل عام وأنت بألف خير يا حامد، تهنئة مقدمة</div>
-
-            <div class="question-section" id="q-section">
-                <p>هل تشتغل بمحطة؟</p>
-                <div class="buttons">
-                    <button class="btn btn-yes" onclick="showResponse()">نعم</button>
-                    <button class="btn btn-no" onclick="showResponse()">لا</button>
-                </div>
-            </div>
-
-            <!-- رسالة الرد الموحدة للزرين -->
-            <div id="response-msg">أمانة انزل مدينة تعز نرتاح ونخزن 🌿</div>
+    <!-- صفحة الهدية -->
+    <div id="gift-page" class="container">
+        <h1 style="font-size: 22px; color: #831843;">مفاجأة لرهوفة الجميلة 🎁</h1>
+        <div class="gift-box" onclick="openGift()">🎁</div>
+        <p style="color: #666; font-size: 16px;">اضغطي على الهدية</p>
+        <div id="love-message">
+            <p>إلى رهوفة أغلى الناس،<br>
+            كل حرف في اسمك هو لحن لقلبي.<br>
+            أحبك أكثر مما تتخيلين! ❤️</p>
         </div>
     </div>
 
-    <script>
-        function openGift() {
-            // إخفاء صندوق الهدية وإظهار محتوى التهنئة
-            document.getElementById('gift-container').style.display = 'none';
-            document.getElementById('content').style.display = 'block';
-        }
+    <!-- الحقوق -->
+    <footer>
+        <p>جميع الحقوق محفوظة ©</p>
+        <p>تصميم وتطوير: <a href="https://wa.me/967736398023" target="_blank">فراس</a></p>
+    </footer>
 
-        function showResponse() {
-            // إخفاء السؤال والأزرار وإظهار رسالة الرد بغض النظر عن الاختيار (نعم أو لا)
-            document.getElementById('q-section').style.display = 'none';
-            document.getElementById('response-msg').style.display = 'block';
+    <script>
+        function checkPass() {
+            let code = document.getElementById('pass').value;
+            if (code === '0852') {
+                document.getElementById('login-page').style.display = 'none';
+                document.getElementById('gift-page').style.display = 'block';
+            } else {
+                alert('الرمز خاطئ، حاولي مرة أخرى يا قلبي!');
+            }
+        }
+        function openGift() {
+            document.querySelector('.gift-box').style.display = 'none';
+            document.getElementById('love-message').style.display = 'block';
         }
     </script>
-
 </body>
 </html>
